@@ -47,9 +47,11 @@ CFLAGS   += -std=c99 -Wall -Werror
 CLEAN_ADDITIONS += 
 CLOBBER_ADDITIONS +=
 
-all:	${ARCH} $(SRCS) $(LIB)
+all: $(LIB)
 
-$(LIB): $(ARCH) ${OBJS}
+$(OBJS): $(ARCH)
+
+$(LIB): $(OBJS)
 	$(make-library)
 
 # Install the library, appending _g or _p as appropriate.
