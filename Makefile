@@ -49,7 +49,7 @@ CLOBBER_ADDITIONS +=
 
 all:	${ARCH} $(SRCS) $(LIB)
 
-$(LIB): ${OBJS}
+$(LIB): $(ARCH) ${OBJS}
 	$(make-library)
 
 # Install the library, appending _g or _p as appropriate.
