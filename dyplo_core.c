@@ -2912,6 +2912,22 @@ static long dyplo_ctl_ioctl( rtems_libio_ioctl_args_t *args )
         dyplo_reg_read( dev->base, DYPLO_REG_BACKPLANE_ENABLE_STATUS ) >> 1;
       break;
     }
+    case DYPLO_IOC_BACKPLANE_N2B_COUNTER_GET: {            // Get N2B counter
+      dyplo_backplane_counter_t *counter = (dyplo_backplane_counter_t *)args->buffer;
+      counter->counter = dyplo_reg_read(  dev->base, 
+                                          DYPLO_REG_BACKPLANE_COUNTER_F2B_BASE + 
+                                          (counter->node_id * 0x4) );
+      status = 0;
+      break;
+    }
+    case DYPLO_IOC_BACKPLANE_B2N_COUNTER_GET: {            // Get B2N counter
+      dyplo_backplane_counter_t *counter = (dyplo_backplane_counter_t *)args->buffer;
+      counter->counter = dyplo_reg_read(  dev->base, 
+                                          DYPLO_REG_BACKPLANE_COUNTER_B2F_BASE + 
+                                          (counter->node_id * 0x4) );
+      status = 0;
+      break;
+    }       
     case DYPLO_IOC_ICAP_INDEX_QUERY:
       status = dyplo_get_icap_device_index( dev );
       break;

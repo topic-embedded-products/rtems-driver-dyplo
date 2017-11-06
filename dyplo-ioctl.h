@@ -51,6 +51,11 @@ typedef struct dyplo_route_t {
   struct dyplo_route_item_t *proutes;       /* Size must be at least n_routes */
 } dyplo_route_t;
 
+typedef struct dyplo_backplane_counter_t  {
+	unsigned int node_id;  
+	unsigned int counter;
+} dyplo_backplane_counter_t;
+
 typedef struct dyplo_buffer_block_alloc_req {
   __u32 size;           /* Size of each buffer */
   __u32 count;          /* Number of buffers */
@@ -145,6 +150,9 @@ typedef struct dyplo_dma_configuration_req {
 #define DYPLO_IOC_WAIT_FOR_INCOMING_DATA 0x42
 #define DYPLO_IOC_WAIT_FOR_OUTGOING_DATA 0x43
 
+#define DYPLO_IOC_BACKPLANE_B2N_COUNTER_GET 0x50
+#define DYPLO_IOC_BACKPLANE_N2B_COUNTER_GET 0x51
+
 /**
  *  NOTE: to see how RTEMS maps rtems_status_code to the returned errno, see:
  *  rtems/src/cpukit/rtems/src/status.c
@@ -237,6 +245,25 @@ typedef struct dyplo_dma_configuration_req {
  */
 #define DYPLO_IOCTBACKPLANE_DISABLE _IO( DYPLO_IOC_MAGIC, \
   DYPLO_IOC_BACKPLANE_DISABLE )
+/**
+ * @brief Get the value of the counter that counts how many data goes
+ *       from the backplane to the node.
+ * @param pointer to a struct dyplo_backplane_counter struct
+ * @return -1 in case of error, 0 on success.
+ */
+#define DYPLO_IOCGB2NCOUNTER _IO( DYPLO_IOC_MAGIC, \
+  DYPLO_IOC_BACKPLANE_B2N_COUNTER_GET \
+  struct dyplo_backplane_counter_t )
+/**
+ * @brief Get the value of the counter that counts how many data goes
+ *       from the node to the backplane.
+ * @param pointer to a struct dyplo_backplane_counter struct
+ * @return -1 in case of error, 0 on success.
+ */
+#define DYPLO_IOCGN2BCOUNTER _IO( DYPLO_IOC_MAGIC, \
+  DYPLO_IOC_BACKPLANE_B2N_COUNTER_GET \
+  struct dyplo_backplane_counter_t )
+  
 /**
  * @brief Get ICAP index.
  * @return -1 in case of error, node index of the ICAP node on success.
