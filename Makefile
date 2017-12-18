@@ -49,7 +49,14 @@ CLOBBER_ADDITIONS +=
 
 all: $(LIB)
 
-$(OBJS): $(ARCH)
+# $(ARCH) creates the output path for object files
+$(OBJS): $(ARCH)/.dirstamp
+
+# Create the output path. Use a "stamp" file because the directory
+# date/time stamp changes when a file is added or removed there.
+$(ARCH)/.dirstamp:
+	test -d $(ARCH) || mkdir $(ARCH)
+	touch $@
 
 $(LIB): $(OBJS)
 	$(make-library)
